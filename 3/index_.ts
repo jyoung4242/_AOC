@@ -4,18 +4,20 @@ import { log } from "node:console";
 import * as fs from "node:fs";
 
 const DATASET = "./data.txt";
+let content = "line,string \r\n";
+const reg = RegExp(/^mul\(\d+,\d+\)$/);
 
 try {
   const data = fs.readFileSync(DATASET, "utf-8");
   // Process the data here
-  const lines = data.split("\r\n");
+  //const lines = data.split("\r\n");
   // Do something with each line
-  lines.forEach(line => {
-    list.push(line);
-  });
+  list.push(data);
 } catch (err) {
   console.error("ERROR", err);
 }
+
+console.log("list", list);
 
 //list of strings filled with text
 //one long one in line[0]
@@ -67,6 +69,10 @@ for (let j = 0; j < list.length; j++) {
       //search substring for ')'
       const closingIndex = substring.indexOf(")");
       const sanitizedSubstring = substring.substring(0, closingIndex + 1);
+      if (!reg.test(sanitizedSubstring)) {
+        continue;
+      }
+      //content += `${i + 1},${sanitizedSubstring}\n`;
       listOfSanitizedSubstrings.push(sanitizedSubstring);
     }
 
@@ -102,3 +108,15 @@ sanitizedSubstrings.forEach((listOfSubstring, index) => {
 });
 
 console.log("listOfMultipliedResults: ", listOfMultipliedResults);
+
+writeCSVfile(content);
+
+function writeCSVfile(content: string) {
+  fs.writeFile("./test.csv", content, err => {
+    if (err) {
+      console.error(err);
+    } else {
+      // file written successfully
+    }
+  });
+}
