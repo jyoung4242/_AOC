@@ -15,6 +15,29 @@ export const readFileToStringList = (datafilepath: string): string[] => {
   return list;
 };
 
+export const readFileToTileMap = (datafilepath: string, endoffile: string = "\r\n"): { map: string[][]; width: number } => {
+  let list: string[][] = [];
+  try {
+    const data = fs.readFileSync(datafilepath, "utf-8");
+    // Process the data here
+    //const lines = data.split("\r\n");
+    // Do something with each line
+    let splitdata = data.split(endoffile);
+
+    for (let line of splitdata) {
+      let tempLine: string[] = [];
+      for (let char of line) {
+        tempLine.push(char);
+      }
+      list.push(tempLine);
+    }
+  } catch (err) {
+    console.error("ERROR", err);
+  }
+
+  return { map: list, width: list[0].length };
+};
+
 export const readFileToNumberList = (datafilepath: string, numLists: number, splitString: string = " "): number[][] => {
   const lists: number[][] = Array(numLists);
   for (let i = 0; i < numLists; i++) {
