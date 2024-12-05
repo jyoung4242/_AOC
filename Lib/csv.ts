@@ -6,6 +6,8 @@ let CSVcontent: CSVdata[][] = [];
 let CSVHeaders: string[] = [];
 let CSVFileName = "./test.csv";
 
+let CSVContentLine: CSVdata[] = [];
+
 export function setupCSVFile(fileName: string, headers: string[] = []) {
   CSVFileName = fileName;
   CSVHeaders = [...headers];
@@ -19,17 +21,16 @@ export function getCSVContent(showHeaders: boolean = false): CSVdata[][] {
   }
 }
 
-export function appendToCSVLine(content: CSVdata[] = []) {
-  //get number of columns in CSVContent
-  let numCols = content.length;
-  const tempRow: CSVdata[] = [];
-  for (let i = 0; i < numCols; i++) {
-    if (!content[i]) {
-      content[i] = "";
-    }
-    tempRow.push(content[i]);
-  }
-  CSVcontent.push([...tempRow]);
+export function resetCSVLine() {
+  CSVContentLine = [];
+}
+
+export function appendToCSVLine(input: CSVdata) {
+  CSVContentLine.push(input);
+}
+
+export function appendCSVLineToCSVContent() {
+  CSVcontent.push([...CSVContentLine]);
 }
 
 export function appendCSVColumn(content: CSVdata[] = []) {

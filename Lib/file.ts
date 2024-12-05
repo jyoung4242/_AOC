@@ -5,13 +5,10 @@ export const readFileToStringList = (datafilepath: string): string[] => {
   try {
     const data = fs.readFileSync(datafilepath, "utf-8");
     // Process the data here
-    //const lines = data.split("\r\n");
-    // Do something with each line
-    list.push(data);
+    list = data.split("\r\n");
   } catch (err) {
     console.error("ERROR", err);
   }
-
   return list;
 };
 

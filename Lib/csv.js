@@ -9,11 +9,12 @@ var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
     return to.concat(ar || Array.prototype.slice.call(from));
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.writeCSVfile = exports.clearCSVContent = exports.editCSVdata = exports.appendCSVColumn = exports.appendToCSVLine = exports.getCSVContent = exports.setupCSVFile = void 0;
+exports.writeCSVfile = exports.clearCSVContent = exports.editCSVdata = exports.appendCSVColumn = exports.appendCSVLineToCSVContent = exports.appendToCSVLine = exports.resetCSVLine = exports.getCSVContent = exports.setupCSVFile = void 0;
 var fs = require("node:fs");
 var CSVcontent = [];
 var CSVHeaders = [];
 var CSVFileName = "./test.csv";
+var CSVContentLine = [];
 function setupCSVFile(fileName, headers) {
     if (headers === void 0) { headers = []; }
     CSVFileName = fileName;
@@ -30,20 +31,18 @@ function getCSVContent(showHeaders) {
     }
 }
 exports.getCSVContent = getCSVContent;
-function appendToCSVLine(content) {
-    if (content === void 0) { content = []; }
-    //get number of columns in CSVContent
-    var numCols = content.length;
-    var tempRow = [];
-    for (var i = 0; i < numCols; i++) {
-        if (!content[i]) {
-            content[i] = "";
-        }
-        tempRow.push(content[i]);
-    }
-    CSVcontent.push(__spreadArray([], tempRow, true));
+function resetCSVLine() {
+    CSVContentLine = [];
+}
+exports.resetCSVLine = resetCSVLine;
+function appendToCSVLine(input) {
+    CSVContentLine.push(input);
 }
 exports.appendToCSVLine = appendToCSVLine;
+function appendCSVLineToCSVContent() {
+    CSVcontent.push(__spreadArray([], CSVContentLine, true));
+}
+exports.appendCSVLineToCSVContent = appendCSVLineToCSVContent;
 function appendCSVColumn(content) {
     if (content === void 0) { content = []; }
     var numRows = content.length;
